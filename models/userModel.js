@@ -19,4 +19,4 @@ const userSchema = new mongoose.Schema({
     match: /https?:\/\/\S+(?:\.[a-zA-Z]{2,8})\/\S+/
   }
 });
-module.exports = mongoose.model('user', userSchema);
+module.exports = mongoose.model('User', userSchema);

@@ -4,18 +4,16 @@ const { ObjectId } = mongoose.Types;
 
 const createUser = (req, res) => {
   const { name, about, avatar } = req.body;
-  User.create({ name, about, avatar })
-    .then(user => {
-      res.status(201).send({ data: user });
-    })
+  User.create({name, about, avatar})
+    .then(user => res.send({data: user}))
     .catch(err => {
-      if (err.name === "ValidationError") {
-        res.status(400).send({ message: "Cервер не смог обработать запрос", error: err });
-      } else {
-        res.status(500).send({ message: "server error", error: err });
+      if (err.name === 'ValidationError') {
+        res.status(400).send({message: ' data is invalid'});
+        return;
       }
+      res.status(500).send({message: 'server error'});
     });
-};
+}
 
 const returnUsers = (req, res) => {
   User.find({}).then((users) => {
