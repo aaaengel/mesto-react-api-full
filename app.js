@@ -17,6 +17,16 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
   useUnifiedTopology: true,
 });
 
+app.use((err, req, res, next) => {
+  if (err.name === 'SyntaxError') {
+    return (res.status(400).send({ message: 'incorrect data' }));
+  } if (err.name === 'MongooseError') {
+    return (res.status(500).send({ message: 'server error' }));
+  }
+
+  return next();
+});
+
 app.use((req, res, next) => {
   req.user = {
     _id: '6016d1147d8a233cdcf6c75f',
