@@ -21,7 +21,13 @@ const returnCards = (req, res) => {
     }
     res.send({ data: cards });
   })
-    .catch(() => res.status(500).send({ message: 'server error' }));
+    .catch((err) => {
+      if (err.name === 'CastError') {
+        res.status(400).send({ message: 'incorrect data' });
+      } else {
+        res.status(500).send({ message: 'server error' });
+      }
+    });
 };
 
 const deleteCardById = (req, res) => {
@@ -34,8 +40,11 @@ const deleteCardById = (req, res) => {
       res.send({ data: card });
     })
     .catch((err) => {
-      res.status(500).send({ message: 'server error' });
-      console.log(err);
+      if (err.name === 'CastError') {
+        res.status(400).send({ message: 'incorrect data' });
+      } else {
+        res.status(500).send({ message: 'server error' });
+      }
     });
 };
 
@@ -51,8 +60,12 @@ const likeCard = (req, res) => {
     }
     res.send({ data: card });
   })
-    .catch(() => {
-      res.status(500).send({ message: 'Internal server error' });
+    .catch((err) => {
+      if (err.name === 'CastError') {
+        res.status(400).send({ message: 'incorrect data' });
+      } else {
+        res.status(500).send({ message: 'server error' });
+      }
     });
 };
 
@@ -69,8 +82,12 @@ const dislikeCard = (req, res) => {
     }
     res.send({ data: card });
   })
-    .catch(() => {
-      res.status(500).send({ message: 'Internal server error' });
+    .catch((err) => {
+      if (err.name === 'CastError') {
+        res.status(400).send({ message: 'incorrect data' });
+      } else {
+        res.status(500).send({ message: 'server error' });
+      }
     });
 };
 module.exports = {

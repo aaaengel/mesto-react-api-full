@@ -10,9 +10,11 @@ const createUser = (req, res) => {
     .catch((err) => {
       if (err.name === 'ValidationError') {
         res.status(400).send({ message: ' data is invalid' });
-        return;
+      } else if (err.name === 'CastError') {
+        res.status(400).send({ message: 'incorrect data' });
+      } else {
+        res.status(500).send({ message: 'server error' });
       }
-      res.status(500).send({ message: 'server error' });
     });
 };
 
@@ -40,10 +42,13 @@ const returnUserById = (req, res) => {
         res.status(404).send({ message: 'Пользователь не существует' });
       }
     })
-    .catch((err) => res.status(500).send({
-      message: 'server error',
-      error: err,
-    }));
+    .catch((err) => {
+      if (err.name === 'CastError') {
+        res.status(400).send({ message: 'incorrect data' });
+      } else {
+        res.status(500).send({ message: 'server error' });
+      }
+    });
 };
 
 const updateUserProfile = (req, res) => {
@@ -54,6 +59,8 @@ const updateUserProfile = (req, res) => {
       name,
       about,
     },
+    { new: true },
+    { runValidators: true },
   ).then((user) => {
     if (!user) {
       res.status(404)
@@ -65,10 +72,11 @@ const updateUserProfile = (req, res) => {
     if (err.name === 'ValidationError') {
       res.status(400)
         .send({ message: 'data is invalid' });
-      return;
+    } else if (err.name === 'CastError') {
+      res.status(400).send({ message: 'incorrect data' });
+    } else {
+      res.status(500).send({ message: 'server error' });
     }
-    res.status(500)
-      .send({ message: 'server error' });
   });
 };
 
@@ -79,6 +87,8 @@ const updateUserAvatar = (req, res) => {
     {
       avatar,
     },
+    { new: true },
+    { runValidators: true },
   ).then((user) => {
     if (!user) {
       res.status(404)
@@ -90,10 +100,11 @@ const updateUserAvatar = (req, res) => {
     if (err.name === 'ValidationError') {
       res.status(400)
         .send({ message: 'data is invalid' });
-      return;
+    } else if (err.name === 'CastError') {
+      res.status(400).send({ message: 'incorrect data' });
+    } else {
+      res.status(500).send({ message: 'server error' });
     }
-    res.status(500)
-      .send({ message: 'server error' });
   });
 };
 
