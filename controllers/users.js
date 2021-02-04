@@ -59,8 +59,8 @@ const updateUserProfile = (req, res) => {
       name,
       about,
     },
-    { new: true },
-    { runValidators: true },
+    { new: true, runValidators: true },
+
   ).then((user) => {
     if (!user) {
       res.status(404)
@@ -77,6 +77,7 @@ const updateUserProfile = (req, res) => {
     } else {
       res.status(500).send({ message: 'server error' });
     }
+    res.status(400).send({ message: 'data is invalid' }); // Я не понимаю, почему у меня они не обрабатываются
   });
 };
 
@@ -87,8 +88,8 @@ const updateUserAvatar = (req, res) => {
     {
       avatar,
     },
-    { new: true },
-    { runValidators: true },
+    { new: true, runValidators: true },
+
   ).then((user) => {
     if (!user) {
       res.status(404)
@@ -98,13 +99,11 @@ const updateUserAvatar = (req, res) => {
     res.send({ data: user });
   }).catch((err) => {
     if (err.name === 'ValidationError') {
-      res.status(400)
-        .send({ message: 'data is invalid' });
+      res.status(400).send({ message: 'data is invalid' });
     } else if (err.name === 'CastError') {
       res.status(400).send({ message: 'incorrect data' });
-    } else {
-      res.status(500).send({ message: 'server error' });
     }
+    res.status(500).send({ message: 'server error' });
   });
 };
 
