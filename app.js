@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const routes = require('./routes');
+const errorHandler = require('./middlewares/errorHandler');
 
 const { PORT = 3000 } = process.env;
 
@@ -26,7 +27,6 @@ app.use((err, req, res, next) => {
 
   return next();
 });
-
 app.use((req, res, next) => {
   req.user = {
     _id: '6016d1147d8a233cdcf6c75f',
@@ -37,4 +37,5 @@ app.use((req, res, next) => {
 
 app.use('/', routes);
 
+app.use(errorHandler);
 app.listen(PORT);

@@ -1,11 +1,16 @@
 const mongoose = require('mongoose');
 const User = require('../models/userModel');
+const { NotFound } = require('../errors');
 
 const { ObjectId } = mongoose.Types;
 
 const createUser = (req, res) => {
-  const { name, about, avatar } = req.body;
-  User.create({ name, about, avatar })
+  const {
+    name, about, avatar, email, password,
+  } = req.body;
+  User.create({
+    name, about, avatar, email, password,
+  })
     .then((user) => res.send({ data: user }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -105,10 +110,20 @@ const updateUserAvatar = (req, res) => {
   });
 };
 
+const getProfile = (req, res, next) => User.findOne({ id: req.params.id })
+  .then((user) => {
+    if (!user) {
+      throw new NotFound('Пользователь не существует');
+    }
+    return res.status(200).send(user);
+  }).catch((err) => {
+    next(err);
+  });
 module.exports = {
   createUser,
   returnUsers,
   returnUserById,
   updateUserProfile,
   updateUserAvatar,
+  getProfile,
 };
