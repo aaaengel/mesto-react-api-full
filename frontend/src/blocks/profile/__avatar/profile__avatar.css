@@ -1,0 +1,21 @@
+@import url("./__edit-icon/profile__avatar__edit-icon.css");
+.profile__avatar{
+    border-radius: 50%;
+    max-width: 120px;
+    max-height: 120px;
+    opacity:1;
+    transition:opacity 0.5s;
+}
+@media screen and (max-width:630px){
+    .profile__avatar{
+        margin: auto;
+    }
+}
+.profile__avatar:hover{
+    opacity:0.2;
+    cursor: pointer;
+    transition:opacity 0.5s;
+}
+.profile__avatar:hover ~ .profile__avatar__edit-icon{
+    display:block;
+}

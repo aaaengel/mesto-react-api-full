@@ -1,0 +1,12 @@
+.cards{
+    margin-top:51px;
+    max-width: 882px;
+    display: flex;
+    flex-wrap: wrap;
+}
+@media screen and (max-width:880px){
+    .cards{
+        justify-content: center;
+    }
+}
+

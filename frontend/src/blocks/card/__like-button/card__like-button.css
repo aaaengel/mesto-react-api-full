@@ -1,0 +1,12 @@
+.card__like-button{
+    display: flex;
+    border:none;
+    padding: 0;
+    background-color: rgba(0, 0, 0, 0);
+    height:min-content;
+    align-self: center;
+}
+.card__like-button:hover{
+    opacity: 0.6;
+    cursor: pointer;
+}

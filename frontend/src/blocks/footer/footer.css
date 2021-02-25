@@ -1,0 +1,9 @@
+@import url("./__copyright/footer__copyright.css");
+.footer{
+    margin-top: 46px;
+}
+@media screen and (max-width:350px){
+    .footer{
+        margin-top: 29px;
+    }
+}

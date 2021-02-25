@@ -1,0 +1,6 @@
+.card__like-button_and_caption{
+    display: flex;
+    flex-direction:column;
+    margin-top:26px;
+    margin-bottom: 24px;
+}

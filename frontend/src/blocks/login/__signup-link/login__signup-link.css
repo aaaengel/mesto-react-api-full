@@ -1,0 +1,12 @@
+.login__signup-link{
+    margin-top: 14px;
+    margin-left: 3px;
+    color:#CCCCCC;
+    text-decoration: none;
+    opacity: 1;
+    transition: opacity 0.5s;
+    }
+    .login__signup-link:hover{
+        opacity: 0.5;
+        transition: opacity 0.5s;
+    }

@@ -1,0 +1,16 @@
+.profile__hobby{
+    font-family: Inter;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    margin-top:16px;
+    line-height: font-size;
+}
+@media screen and (max-width:630px){
+    .profile__hobby{
+        text-align: center;
+        margin: auto;
+        font-size: 14px;
+        margin-bottom: 36px;
+    }
+}

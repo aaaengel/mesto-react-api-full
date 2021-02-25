@@ -1,0 +1,7 @@
+@import url("./__input/form-auth__input.css");
+.form-auth{
+    max-width: 380px;
+    margin:auto;
+    display:flex;
+    flex-direction:column;
+}

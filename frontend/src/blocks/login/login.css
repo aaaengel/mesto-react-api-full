@@ -1,0 +1,11 @@
+@import url("./__welcome/login__welcome.css");
+@import url("./__button-container/login__button-coontainer.css");
+@import url("./__link/login__link.css");
+@import url("./__signup/login__signup.css");
+@import url("./__signup-link/login__signup-link.css");
+.login {
+    max-width: 400px;
+    display: flex;
+    margin:auto;
+    flex-direction: column;
+}
