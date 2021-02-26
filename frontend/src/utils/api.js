@@ -1,15 +1,16 @@
 export class Api {
-constructor(url, token){
+constructor(url){
 this._url = url;
-this._token = token;
+this._token = localStorage.getItem('token');
 }
 
 
 getAny(item){
+  
     return fetch(this._url + item, {
         method: "GET",
         headers: {
-            authorization: this._token,
+            authorization: `Bearer ${this._token}`,
             "Content-type": "application/json"
         }
     }).then((res) => {
@@ -26,10 +27,11 @@ getAny(item){
 
 
 patch(item, data){
+  
     return fetch(this._url + item, {
   method: 'PATCH',
   headers: {
-    authorization: this._token,
+    authorization: `Bearer ${this._token}`,
     'Content-Type': 'application/json'
   },
   body: JSON.stringify({
@@ -50,7 +52,7 @@ patchAvatar(item, data){
   return fetch(this._url + item, {
 method: 'PATCH',
 headers: {
-  authorization: this._token,
+  authorization: `Bearer ${this._token}`,
   'Content-Type': 'application/json'
 },
 body: JSON.stringify({
@@ -68,10 +70,11 @@ console.log(err)
 }
 
 post(item, data){
+  
   return fetch(this._url + item, {
     method: "POST",
     headers: {
-      authorization: this._token,
+      authorization: `Bearer ${this._token}`,
     'Content-Type': 'application/json',
     },
     body: JSON.stringify({
@@ -91,10 +94,11 @@ post(item, data){
   
   
   delete(item){
+    
     return fetch(this._url + item, {
       method: "DELETE",
       headers: {
-        authorization: this._token,
+        authorization: `Bearer ${this._token}`,
       'Content-Type': 'application/json'
       }
     })
@@ -109,10 +113,11 @@ post(item, data){
   })
   }
   put(item){
+    
     return fetch(this._url + item, {
       method: "PUT",
       headers: {
-      authorization: this._token,
+      authorization: `Bearer ${this._token}`,
       'Content-Type': 'application/json'
       }
     })
@@ -127,10 +132,11 @@ post(item, data){
   })
   }
   changeLikeCardStatus(id, isLiked) {
+    
     return fetch(this._url + `cards/likes/${id}`, {
       method: `${isLiked ? 'DELETE' : 'PUT'}`,
       headers: {
-        authorization: this._token,
+        authorization: `Bearer ${this._token}`,
         'Content-Type': 'application/json'
         }
     }).then((res) => {
@@ -144,5 +150,5 @@ post(item, data){
   })
   }
 }
-const api = new Api("https://mesto.nomoreparties.co/v1/cohort-17/", "abc35fe1-b80b-4747-9d9f-796fef32537e")
+const api = new Api("http://api.banilacrew.students.nomoredomains.icu/")
 export default api;
