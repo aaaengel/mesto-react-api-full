@@ -4,7 +4,7 @@ export const register = (password, email) => {
   return fetch(`${BASE_URL}/register`, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({password, email})
   })
@@ -21,7 +21,7 @@ export const authorize = (email, password) => {
   return fetch(`${BASE_URL}/auth`, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({email, password})
   })
