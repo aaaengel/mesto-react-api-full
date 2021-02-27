@@ -5,10 +5,9 @@ const authRouter = require('./auth');
 const authMiddleware = require ('../middlewares/auth')
 
 routes.use('/', authRouter);
-router.use(authMiddleware);
-routes.use('/users', usersRouter);
+routes.use('/users', authMiddleware, usersRouter);
 
-routes.use('/cards', cardsRouter);
+routes.use('/cards', authMiddleware, cardsRouter);
 
 routes.use('/*', (req, res) => {
   res.status(404).json({ message: 'Запрашиваемый ресурс не найден' });
