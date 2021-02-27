@@ -2,8 +2,10 @@ const routes = require('express').Router();
 const usersRouter = require('./users');
 const cardsRouter = require('./cards');
 const authRouter = require('./auth');
+const authMiddleware = require ('../middlewares/auth')
 
 routes.use('/', authRouter);
+router.use(authMiddleware);
 routes.use('/users', usersRouter);
 
 routes.use('/cards', cardsRouter);
