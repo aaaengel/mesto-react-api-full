@@ -10,7 +10,7 @@ const { PORT = 3000 } = process.env;
 
 const app = express();
 
-app.use(cors())
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/api', require('./routes/index'));
@@ -34,4 +34,5 @@ app.use((err, req, res, next) => {
 app.use('/', routes);
 
 app.use(errorHandler);
+app.use(cors())
 app.listen(PORT);
