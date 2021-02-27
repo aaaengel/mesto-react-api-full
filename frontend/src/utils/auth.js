@@ -1,7 +1,7 @@
 export const BASE_URL = "http://api.banilacrew.students.nomoredomains.icu";
 
 export const register = (password, email) => {
-  return fetch(`${BASE_URL}/register`, {
+  return fetch(`${BASE_URL}/signup`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -18,7 +18,7 @@ export const register = (password, email) => {
   .catch((err) => console.log(err));
 };
 export const authorize = (email, password) => {
-  return fetch(`${BASE_URL}/auth`, {
+  return fetch(`${BASE_URL}/signin`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

@@ -3,7 +3,7 @@ const {
   register, auth,
 } = require('../controllers/auth');
 const registerValidator = require('../middlewares/validators/register')
-router.post('/singup', registerValidator, register);
-router.post('/singin', auth);
+router.post('/signup', registerValidator, register);
+router.post('/signin', auth);
 
 module.exports = router;
