@@ -186,14 +186,15 @@ function handleLogin({email, password}){
                  <Login handleLogin={handleLogin} />
             </Route>
             <Route exact path="/">
+            <EditProfilePopup onClose={closeAllPopups} isOpen={isEditProfilePopupOpen} onUpdateUser={handleUpdateUser} />
+            <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlaceSubmit}/>
+            <EditAvatarPopup onUpdateAvatar={handleUpdateAvatar} isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} />
+            <PopupWithForm name="confirm" title="Вы уверены?" />
+            <ImagePopup card={selectedCard} onClose={closeAllPopups} />
               <ProtectedRoute loggedIn={loggedIn} component={Main} cards={cards} handleCardLike={handleCardLike} handleCardDelete={handleCardDelete} onEditProfile={handleEditProfileClick} onEditAvatar={handleEditAvatarClick} onAddPlace={handleAddPlaceClick}  onCardClick={handleCardClick}/>
             </Route>
           </Switch>
-          <EditProfilePopup onClose={closeAllPopups} isOpen={isEditProfilePopupOpen} onUpdateUser={handleUpdateUser} />
-          <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlaceSubmit}/>
-          <EditAvatarPopup onUpdateAvatar={handleUpdateAvatar} isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} />
-          <PopupWithForm name="confirm" title="Вы уверены?" />
-          <ImagePopup card={selectedCard} onClose={closeAllPopups} />
+          
           <Footer />
         </div>
       </CurrentUserContext.Provider>
