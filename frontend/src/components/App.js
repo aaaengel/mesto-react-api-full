@@ -37,6 +37,7 @@ function App() {
           .getAny("users/me")
           .then((res) => {
             setCurrentUser(res);
+            console.log(currentUser)
           })
           .catch((err) =>
             console.log(`Ошибка при загрузке информации о пользователе: ${err}`)
