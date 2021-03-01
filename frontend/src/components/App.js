@@ -24,26 +24,21 @@ function App() {
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
     const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
     const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
-    const [loggedIn, setState] = React.useState(false)  
+    const [loggedIn, setState] = React.useState(false);
+    const [cards, addCards] = React.useState([]);
     const [toolTipStat, setToolTipStat] = React.useState({
       iconStatus: loading,
       text: 'Загрузка...',
     });
     const [isInfoToolTipPopupOpen, setIsInfoToolTipPopupOpen] = React.useState(false);
     const [userData, setUserData] = React.useState({})
+    const user = {
+      currentUser,
+      setCurrentUser,
+      cards, 
+      addCards,
+    }
     const history = useHistory();
-    React.useEffect(() => {
-        api
-          .getAny("users/me")
-          .then((res) => {
-            setCurrentUser(res);
-            console.log(currentUser)
-          })
-          .catch((err) =>
-            console.log(`Ошибка при загрузке информации о пользователе: ${err}`)
-          );
-      }, []);
-      
       function handleUpdateUser(userData){
         api.patch("users/me", userData)
         .then((newUser) => setCurrentUser(newUser))
@@ -99,20 +94,7 @@ function App() {
     React.useEffect(() =>{
       handleTokenCheck();
       }, [])
-     const [cards, addCards] = React.useState([]);
-  React.useEffect(()=>{
-    api.getAny("cards")
-    .then((res) => {
-        addCards(res.map(item => ({
-          _id: item._id,
-          likes: item.likes,
-          name: item.name,
-          link: item.link,
-          owner: item.owner
-        }
-        )));
-      }).catch(err => console.log(err))
-  }, [])
+     
 function handleCardLike(card) {
     const isLiked = card.likes.some(i => i._id === currentUser._id);
     api.changeLikeCardStatus(card._id, isLiked).then((item) => {
@@ -175,7 +157,7 @@ function handleLogin({email, password}){
     return (
       
       
-      <CurrentUserContext.Provider value={currentUser}>
+      <CurrentUserContext.Provider value={user}>
         <div className="page">
           <Header userData={userData} />
           <InfoToolTip onClose={closeAllPopups} status={toolTipStat} isOpen={isInfoToolTipPopupOpen} />
@@ -192,7 +174,7 @@ function handleLogin({email, password}){
             <EditAvatarPopup onUpdateAvatar={handleUpdateAvatar} isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} />
             <PopupWithForm name="confirm" title="Вы уверены?" />
             <ImagePopup card={selectedCard} onClose={closeAllPopups} />
-              <ProtectedRoute loggedIn={loggedIn} component={Main} cards={cards} handleCardLike={handleCardLike} handleCardDelete={handleCardDelete} onEditProfile={handleEditProfileClick} onEditAvatar={handleEditAvatarClick} onAddPlace={handleAddPlaceClick}  onCardClick={handleCardClick}/>
+              <ProtectedRoute loggedIn={loggedIn} component={Main} cards={cards} addCards={addCards} handleCardLike={handleCardLike} handleCardDelete={handleCardDelete} onEditProfile={handleEditProfileClick} onEditAvatar={handleEditAvatarClick} onAddPlace={handleAddPlaceClick}  onCardClick={handleCardClick}/>
             </Route>
           </Switch>
           
