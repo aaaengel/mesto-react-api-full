@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 /* eslint-disable import/no-extraneous-dependencies */
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -17,16 +18,16 @@ const register = (req, res, next) => {
       }
       return bcrypt.hash(password, 10);
     })
-    .then((pass) => User.create({
-      email, pass, name, about, avatar,
+    .then((password) => User.create({
+      email, password, name, about, avatar,
     }))
     .then((user) => {
       const newUser = {
-        name: user.name,
-        about: user.about,
         email: user.email,
-        _id: user._id,
+        name: user.name,
         avatar: user.avatar,
+        _id: user._id,
+        about: user.about,
       };
       res.send({ data: newUser });
     })

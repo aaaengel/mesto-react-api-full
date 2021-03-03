@@ -9,12 +9,10 @@ import api from "../utils/api"
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 function Main(props){
 const {currentUser, setCurrentUser, cards, addCards} = React.useContext(CurrentUserContext);
-console.log(currentUser)
 React.useEffect(() => {
     api
       .getAny("users/me")
       .then((res) => {
-        console.log(res)
         setCurrentUser(res);
         })
       .catch((err) =>

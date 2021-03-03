@@ -150,5 +150,5 @@ post(item, data){
   })
   }
 }
-const api = new Api("https://api.banilacrew.students.nomoredomains.icu/")
+const api = new Api("https://www.api.banilacrew.students.nomoredomains.icu/")
 export default api;

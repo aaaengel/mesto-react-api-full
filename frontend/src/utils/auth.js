@@ -1,4 +1,4 @@
-export const BASE_URL = "https://api.banilacrew.students.nomoredomains.icu";
+export const BASE_URL = "https://www.api.banilacrew.students.nomoredomains.icu";
 
 export const register = (password, email) => {
   return fetch(`${BASE_URL}/signup`, {
