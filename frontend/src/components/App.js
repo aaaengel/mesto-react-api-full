@@ -81,8 +81,8 @@ function App() {
             loggedIn: true,
             }) 
             setUserData({
-              id: res.data._id,
-              email: res.data.email,
+              id: res._id,
+              email: res.email,
             });
             history.push("/");
           }})
