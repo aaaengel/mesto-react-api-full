@@ -150,5 +150,5 @@ post(item, data){
   })
   }
 }
-const api = new Api("http://localhost:3001")
+const api = new Api("https://api.banilacrew.students.nomoredomains.icu/")
 export default api;
