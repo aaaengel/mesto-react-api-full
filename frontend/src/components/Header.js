@@ -1,7 +1,7 @@
 import React from "react";
 import {Route, Link} from "react-router-dom";
 import logo from "../images/logo.svg";
-function Header(userData) {
+function Header({userData, onSignOut}) {
     console.log(userData)
     return (
         <header className="header">
@@ -18,8 +18,8 @@ function Header(userData) {
             </Route>
             <Route exact path="/">
                 <button className="header__button">
-                    <p className="header__button_text">{userData.userData.email}</p>
-                    <Link to="/sign-up" className="header__button_text">Выход</Link>
+                    <p className="header__button_text">{userData.email}</p>
+                    <Link to="/sign-up" onClick={onSignOut} className="header__button_text">Выход</Link>
                 </button>
             </Route>
         </header>

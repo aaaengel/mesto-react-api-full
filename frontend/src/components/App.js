@@ -95,6 +95,11 @@ function App() {
       handleTokenCheck();
       }, [])
      
+  function handleSignOut () {
+        localStorage.removeItem('jwt');
+        setCurrentUser({isLoggedIn:false});
+    }
+
 function handleCardLike(card) {
     const isLiked = card.likes.some(i => i._id === currentUser._id);
     api.changeLikeCardStatus(card._id, isLiked).then((item) => {
@@ -159,7 +164,7 @@ function handleLogin({email, password}){
       
       <CurrentUserContext.Provider value={user}>
         <div className="page">
-          <Header userData={userData} />
+          <Header userData={userData} onSignOut={handleSignOut} />
           <InfoToolTip onClose={closeAllPopups} status={toolTipStat} isOpen={isInfoToolTipPopupOpen} />
           <Switch>
             <Route path="/sign-up">

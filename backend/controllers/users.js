@@ -113,10 +113,7 @@ const updateUserAvatar = (req, res) => {
 const getProfile = (req, res, next) =>{
 User.findOne(req.user._id)
   .then((user) => {
-    if (!user) {
-      throw new NotFound('Пользователь не существует');
-    }
-    return res.status(200).send(user);
+  return res.status(200).send(user);
   }).catch((err) => {
     next(err);
   });}
