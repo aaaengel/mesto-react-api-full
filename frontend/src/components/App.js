@@ -40,7 +40,7 @@ function App() {
     }
     const history = useHistory();
       function handleUpdateUser(userData){
-        api.patch("/users/me", userData)
+        api.patch("users/me", userData)
         .then((newUser) => setCurrentUser(newUser))
       .catch((err) => `Ошибка при обновлении информации о пользователе: ${err}`)
       closeAllPopups();
