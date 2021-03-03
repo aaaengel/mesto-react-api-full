@@ -32,7 +32,7 @@ function App() {
       text: 'Загрузка...',
     });
     const [isInfoToolTipPopupOpen, setIsInfoToolTipPopupOpen] = React.useState(false);
-    const [userData, setUserData] = React.useState({})
+    const [userData, setUserData] = React.useState({})  
     const user = {
       currentUser,
       setCurrentUser,
@@ -142,10 +142,10 @@ function handleRegister({email, password}){
         if(res){
         history.push('/sign-in');
         notify()
-        }
+        } 
       }).catch((err) =>{
-        console.log(err)
         registerError()
+        console.log(err)
       }).finally(() => setIsInfoToolTipPopupOpen(true))
 }
 function handleLogin({email, password}){

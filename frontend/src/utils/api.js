@@ -6,7 +6,7 @@ this._token = localStorage.getItem('jwt');
 
 
 getAny(item){
-  
+  this._token = localStorage.getItem('jwt');
     return fetch(this._url + item, {
         method: "GET",
         headers: {
