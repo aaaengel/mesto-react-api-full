@@ -110,7 +110,8 @@ const updateUserAvatar = (req, res) => {
   });
 };
 
-const getProfile = (req, res, next) => User.findOne({ id: req.params.id })
+const getProfile = (req, res, next) =>{
+User.findOne(req.user._id)
   .then((user) => {
     if (!user) {
       throw new NotFound('Пользователь не существует');
@@ -118,7 +119,7 @@ const getProfile = (req, res, next) => User.findOne({ id: req.params.id })
     return res.status(200).send(user);
   }).catch((err) => {
     next(err);
-  });
+  });}
 module.exports = {
   createUser,
   returnUsers,

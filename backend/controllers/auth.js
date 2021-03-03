@@ -42,8 +42,6 @@ const auth = (req, res, next) => {
 .then((_id) =>{
  const token = jwt.sign({ _id }, JWT_SECRET, { expiresIn: JWT_TTL })
  res.send({token});
- console.log(token)
-
 })
   .catch(next)
 };

@@ -8,15 +8,16 @@ const auth = (req, res, next) => {
   if(!authorization){
     throw new Forbidden("Нет токена");
   }
-
+  let payload;
   const token = authorization.replace(/^Bearer /, "");
 
   try{
-    const user = jwt.verify(token, JWT_SECRET);
-    req.user = user;
+    payload = jwt.verify(token, JWT_SECRET);
+
   } catch(err){
     throw new Forbidden('Нет токена');
   }
+  req.user = payload;
 
   next();
 

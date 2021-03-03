@@ -6,12 +6,13 @@ import Card from "./Card.js";
 import api from "../utils/api"
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 function Main(props){
-const {currentUser, setCurrentUser, addCards} = React.useContext(CurrentUserContext);
+const {currentUser, setCurrentUser, cards, addCards} = React.useContext(CurrentUserContext);
 console.log(currentUser)
 React.useEffect(() => {
     api
       .getAny("users/me")
       .then((res) => {
+        console.log(res)
         setCurrentUser(res);
         })
       .catch((err) =>
@@ -19,7 +20,7 @@ React.useEffect(() => {
       );
       api.getAny("cards")
     .then((res) => {
-        addCards(res.map(item => ({
+        addCards(res.data.map(item => ({
           _id: item._id,
           likes: item.likes,
           name: item.name,
@@ -50,7 +51,7 @@ return(
                     </button>
                 </section>
                 <section className="cards">
-                    {props.cards.map((item) => (
+                    {cards.map((item) => (
                         <Card key={item._id} card={item} onCardClick={props.onCardClick} onCardDelete={props.handleCardDelete} onCardLike={props.handleCardLike} />
                     )
                     )}

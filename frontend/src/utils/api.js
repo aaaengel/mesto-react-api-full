@@ -1,7 +1,7 @@
 export class Api {
 constructor(url){
 this._url = url;
-this._token = localStorage.getItem('token');
+this._token = localStorage.getItem('jwt');
 }
 
 

@@ -4,10 +4,11 @@ import likeIcon from "../images/Vector.svg";
 import CurrentUserContext from "../contexts/CurrentUserContext"
 export function Card({card, onCardClick, onCardLike, onCardDelete}) {
     const currentUser = React.useContext(CurrentUserContext);
-    const isOwn = card.owner._id === currentUser._id;
+    const isOwn = card.owner === currentUser._id;
     const cardDeleteButtonClassName = (
         `card__delete-button ${isOwn ? 'card__delete-button' : 'card__delete-button_type_isHidden'}`
       ); 
+      console.log(card)
     const isLiked = card.likes.some(i => i._id === currentUser._id);
     const cardLikeButtonClassName = `card__like-icon ${
         isLiked ? "card__like-icon_active" : "card__like-icon"
