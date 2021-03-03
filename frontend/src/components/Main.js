@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+
 import avIcon from "../images/avatar_icon.svg";
 import editButton from "../images/EditButton.svg";
 import plus from "../images/Vector2.svg";

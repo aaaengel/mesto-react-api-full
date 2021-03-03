@@ -1,27 +1,25 @@
-const jwt = require("jsonwebtoken");
-const{ JWT_SECRET } = require('../config');
-const { Forbidden } = require('../errors')
+/* eslint-disable import/no-extraneous-dependencies */
+const jwt = require('jsonwebtoken');
+const { JWT_SECRET } = require('../config');
+const { Forbidden } = require('../errors');
 
 const auth = (req, res, next) => {
   const { authorization } = req.headers;
 
-  if(!authorization){
-    throw new Forbidden("Нет токена");
+  if (!authorization) {
+    throw new Forbidden('Нет токена');
   }
   let payload;
-  const token = authorization.replace(/^Bearer /, "");
+  const token = authorization.replace(/^Bearer /, '');
 
-  try{
+  try {
     payload = jwt.verify(token, JWT_SECRET);
-
-  } catch(err){
+  } catch (err) {
     throw new Forbidden('Нет токена');
   }
   req.user = payload;
 
   next();
-
-}
-
+};
 
 module.exports = auth;

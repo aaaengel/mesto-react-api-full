@@ -1,32 +1,35 @@
 const Card = require('../models/cardModel');
+const {
+  NotFound,
+  BadRequest,
+  ServerError,
+} = require('../errors');
 
 const createCard = (req, res) => {
   const { name, link } = req.body;
   const owner = req.user._id;
-  Card.create({ name, link, owner})
+  Card.create({ name, link, owner })
     .then((card) => res.send({ data: card }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        res.status(400).send({ message: `data is invalid:${err}` });
-        return;
+        throw new BadRequest('invalid data');
       }
-      res.status(500).send({ message: 'server error' });
+      throw new ServerError('server error');
     });
 };
 
 const returnCards = (req, res) => {
   Card.find({}).then((cards) => {
     if (!cards.length) {
-      res.status(404).send({ message: 'Cards undefined' });
-      return;
+      throw new NotFound('cards undefined');
     }
     res.send({ data: cards });
   })
     .catch((err) => {
       if (err.name === 'CastError') {
-        res.status(400).send({ message: 'incorrect data' });
+        throw new BadRequest('invalid data');
       } else {
-        res.status(500).send({ message: 'server error' });
+        throw new ServerError('server error');
       }
     });
 };
@@ -35,16 +38,15 @@ const deleteCardById = (req, res) => {
   Card.findByIdAndRemove(req.params.id)
     .then((card) => {
       if (!card) {
-        res.status(404).send({ message: 'Card undefined' });
-        return;
+        throw new NotFound('card undefined');
       }
       res.send({ data: card });
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        res.status(400).send({ message: 'incorrect data' });
+        throw new BadRequest('invalid data');
       } else {
-        res.status(500).send({ message: 'server error' });
+        throw new ServerError('server error');
       }
     });
 };
@@ -56,16 +58,15 @@ const likeCard = (req, res) => {
     { new: true },
   ).then((card) => {
     if (!card) {
-      res.status(404).send({ message: 'Card not found' });
-      return;
+      throw new NotFound('card undefined');
     }
     res.send({ data: card });
   })
     .catch((err) => {
       if (err.name === 'CastError') {
-        res.status(400).send({ message: 'incorrect data' });
+        throw new BadRequest('invalid data');
       } else {
-        res.status(500).send({ message: 'server error' });
+        throw new ServerError('server error');
       }
     });
 };
@@ -78,16 +79,15 @@ const dislikeCard = (req, res) => {
     { new: true },
   ).then((card) => {
     if (!card) {
-      res.status(404).send({ message: 'Card not found' });
-      return;
+      throw new NotFound('card undefined');
     }
     res.send({ data: card });
   })
     .catch((err) => {
       if (err.name === 'CastError') {
-        res.status(400).send({ message: 'incorrect data' });
+        throw new BadRequest('invalid data');
       } else {
-        res.status(500).send({ message: 'server error' });
+        throw new ServerError('server error');
       }
     });
 };

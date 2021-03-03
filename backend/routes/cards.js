@@ -10,7 +10,7 @@ const {
 cardsRouter.delete('/:id', deleteCardById);
 cardsRouter.get('/', returnCards);
 cardsRouter.post('/', createCard);
-cardsRouter.put('/likes/:cardId', likeCard);
-cardsRouter.delete('/likes/:cardId', dislikeCard);
+cardsRouter.put('/:cardId/likes', likeCard);
+cardsRouter.delete('/:cardId/likes', dislikeCard);
 
 module.exports = cardsRouter;

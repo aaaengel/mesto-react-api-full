@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 const User = require('../models/userModel');
-const { NotFound } = require('../errors');
+const {
+  NotFound,
+  BadRequest,
+  ServerError,
+} = require('../errors');
 
 const { ObjectId } = mongoose.Types;
 
@@ -14,11 +18,11 @@ const createUser = (req, res) => {
     .then((user) => res.send({ data: user }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        res.status(400).send({ message: ' data is invalid' });
+        throw new BadRequest('invalid data');
       } else if (err.name === 'CastError') {
-        res.status(400).send({ message: 'incorrect data' });
+        throw new BadRequest('invalid data');
       } else {
-        res.status(500).send({ message: 'server error' });
+        throw new ServerError('server error');
       }
     });
 };
@@ -26,32 +30,32 @@ const createUser = (req, res) => {
 const returnUsers = (req, res) => {
   User.find({}).then((users) => {
     if (!users.length) {
-      res.status(404).send({ message: 'Users undefined' });
-      return;
+      throw new NotFound('users undefined');
     }
     res.send({ data: users });
   })
-    .catch(() => res.status(500).send({ message: 'server error' }));
+    .catch(() => {
+      throw new ServerError('server error');
+    });
 };
 
 const returnUserById = (req, res) => {
   if (!ObjectId.isValid(req.params.id)) {
-    res.status(400).send({ message: 'Cервер не смог обработать запрос' });
-    return;
+    throw new BadRequest('сервер не смог обработать запрос');
   }
   User.findById(req.params.id)
     .then((user) => {
       if (user) {
         res.status(200).send(user);
       } else {
-        res.status(404).send({ message: 'Пользователь не существует' });
+        throw new NotFound('user undefined');
       }
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        res.status(400).send({ message: 'incorrect data' });
+        throw new BadRequest('incorrect data');
       } else {
-        res.status(500).send({ message: 'server error' });
+        throw new ServerError('server error');
       }
     });
 };
@@ -75,11 +79,11 @@ const updateUserProfile = (req, res) => {
     res.send({ data: user });
   }).catch((err) => {
     if (err.name === 'ValidationError') {
-      res.status(400).send({ message: 'data is invalid' });
+      throw new BadRequest('data is invalid');
     } else if (err.name === 'CastError') {
-      res.status(400).send({ message: 'incorrect data' });
+      throw new BadRequest('incorrect data');
     } else {
-      res.status(500).send({ message: 'server error' });
+      throw new ServerError('server error');
     }
   });
 };
@@ -95,28 +99,26 @@ const updateUserAvatar = (req, res) => {
 
   ).then((user) => {
     if (!user) {
-      res.status(404).send({ message: 'User not found' });
-      return;
+      throw new NotFound('user not found');
     }
     res.send({ data: user });
   }).catch((err) => {
     if (err.name === 'ValidationError') {
-      res.status(400).send({ message: 'data is invalid' });
+      throw new BadRequest('data is invalid');
     } else if (err.name === 'CastError') {
-      res.status(400).send({ message: 'incorrect data' });
+      throw new BadRequest('data is incorrect');
     } else {
-      res.status(500).send({ message: 'server error' });
+      throw new ServerError('server error');
     }
   });
 };
 
-const getProfile = (req, res, next) =>{
-User.findOne(req.user._id)
-  .then((user) => {
-  return res.status(200).send(user);
-  }).catch((err) => {
-    next(err);
-  });}
+const getProfile = (req, res, next) => {
+  User.findOne(req.user._id)
+    .then((user) => res.status(200).send(user)).catch((err) => {
+      next(err);
+    });
+};
 module.exports = {
   createUser,
   returnUsers,

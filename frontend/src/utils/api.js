@@ -133,7 +133,7 @@ post(item, data){
   }
   changeLikeCardStatus(id, isLiked) {
     
-    return fetch(this._url + `cards/likes/${id}`, {
+    return fetch(this._url + `cards/${id}/likes`, {
       method: `${isLiked ? 'DELETE' : 'PUT'}`,
       headers: {
         authorization: `Bearer ${this._token}`,
@@ -150,5 +150,5 @@ post(item, data){
   })
   }
 }
-const api = new Api("http://api.banilacrew.students.nomoredomains.icu/")
+const api = new Api("http://localhost:3001")
 export default api;

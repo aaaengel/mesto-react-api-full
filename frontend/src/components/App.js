@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
 import {Route, Switch, withRouter, useHistory} from 'react-router-dom';
 import Header from "./Header";
