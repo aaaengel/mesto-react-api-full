@@ -68,8 +68,8 @@ const updateUserAvatar = (req, res, next) => {
 };
 
 const getProfile = (req, res, next) => {
-  User.findOne(req.user._id)
-    .then((user) => res.status(200).send(user)).catch((err) => {
+  User.findById(req.user._id._id)
+    .then((user) => res.send(user)).catch((err) => {
       next(err);
     });
 };

@@ -39,21 +39,21 @@ const deleteCardById = (req, res, next) => {
   Card.findById(req.params.id)
     .then((card) => {
       if (!card) {
-        throw new NotFound('card undefined');
+        return next(new NotFound('card undefined'));
       }
-      if (card.owner === req.user._id) {
-        Card.findByIdAndRemove(req.params.id)
-          .then((deletedCard) => res.send(deletedCard))
-          .catch(next);
+      if (!card.owner.equals(req.user._id._id)) {
+        return next(new Forbidden('Нет прав на удаление чужой карточки'));
       }
-      return next(new Forbidden('Вы не можете удалить эту карточку'));
+      Card.findByIdAndRemove(req.params.id)
+        .then((deletedCard) => res.status(200).send({ data: deletedCard }))
+        .catch(next);
+      return next();
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        throw new BadRequest('invalid data');
-      } else {
-        throw new ServerError('server error');
+        return next(new BadRequest('invalid data'));
       }
+      return next(new ServerError('server error'));
     });
 };
 

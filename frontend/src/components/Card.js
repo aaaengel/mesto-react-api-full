@@ -2,7 +2,6 @@ import React from 'react';
 import delBtn from "../images/Group.svg";
 import likeIcon from "../images/Vector.svg";
 import CurrentUserContext from "../contexts/CurrentUserContext"
-import cardUndef from "../images/photoUndef.jpg"
 export function Card({card, onCardClick, onCardLike, onCardDelete}) {
     const {currentUser} = React.useContext(CurrentUserContext);
     const isOwn = card.owner === currentUser._id;
@@ -26,7 +25,7 @@ export function Card({card, onCardClick, onCardLike, onCardDelete}) {
 		
 	        <div className="card">
                 <div className="card__image">
-                  <img className="card__image" src={card.link || cardUndef} alt={card.name} onClick={handleClick} />
+                  <img className="card__image" src={card.link} alt={card.name} onClick={handleClick} />
                 </div>
                 <div className="card__description">
                     <h3 className="card__text">{card.name}</h3>
