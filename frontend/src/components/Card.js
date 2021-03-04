@@ -2,14 +2,14 @@ import React from 'react';
 import delBtn from "../images/Group.svg";
 import likeIcon from "../images/Vector.svg";
 import CurrentUserContext from "../contexts/CurrentUserContext"
+import cardUndef from "../images/photoUndef.jpg"
 export function Card({card, onCardClick, onCardLike, onCardDelete}) {
-    const currentUser = React.useContext(CurrentUserContext);
+    const {currentUser} = React.useContext(CurrentUserContext);
     const isOwn = card.owner === currentUser._id;
     const cardDeleteButtonClassName = (
         `card__delete-button ${isOwn ? 'card__delete-button' : 'card__delete-button_type_isHidden'}`
       ); 
-      console.log(card)
-    const isLiked = card.likes.some(i => i._id === currentUser._id);
+    const isLiked = card.likes.some(i => i === currentUser._id);
     const cardLikeButtonClassName = `card__like-icon ${
         isLiked ? "card__like-icon_active" : "card__like-icon"
       }`;
@@ -25,7 +25,9 @@ export function Card({card, onCardClick, onCardLike, onCardDelete}) {
     return (
 		
 	        <div className="card">
-                <img className="card__image" src={card.link} alt={card.name} onClick={handleClick} />
+                <div className="card__image">
+                  <img className="card__image" src={card.link || cardUndef} alt={card.name} onClick={handleClick} />
+                </div>
                 <div className="card__description">
                     <h3 className="card__text">{card.name}</h3>
                     <div className="card__like-button_and_caption">

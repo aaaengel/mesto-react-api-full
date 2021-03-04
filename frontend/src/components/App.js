@@ -42,7 +42,9 @@ function App() {
     const history = useHistory();
       function handleUpdateUser(userData){
         api.patch("users/me", userData)
-        .then((newUser) => setCurrentUser(newUser))
+        .then((newUser) => {
+          setCurrentUser(newUser)
+        })
       .catch((err) => `Ошибка при обновлении информации о пользователе: ${err}`)
       closeAllPopups();
       }
@@ -104,6 +106,7 @@ function App() {
 function handleCardLike(card) {
     const isLiked = card.likes.some(i => i === currentUser._id);
     api.changeLikeCardStatus(card._id, isLiked).then((item) => {
+      console.log(item)
         const newCard = {
             _id: item.data._id,
             likes: item.data.likes,
@@ -117,7 +120,7 @@ function handleCardLike(card) {
     .catch(err => console.log(err))
 } 
 function handleCardDelete(card){
-    api.delete(`cards/${card._id}`)
+  api.delete(`cards/${card._id}`)
     .then(() => {
         const newCards = cards.filter(item => item._id !== card._id);
         addCards(newCards)

@@ -3,6 +3,7 @@ const {
   NotFound,
   BadRequest,
   ServerError,
+  Forbidden,
 } = require('../errors');
 
 const createCard = (req, res) => {
@@ -34,13 +35,18 @@ const returnCards = (req, res) => {
     });
 };
 
-const deleteCardById = (req, res) => {
-  Card.findByIdAndRemove(req.params.id)
+const deleteCardById = (req, res, next) => {
+  Card.findById(req.params.id)
     .then((card) => {
       if (!card) {
         throw new NotFound('card undefined');
       }
-      res.send({ data: card });
+      if (card.owner === req.user._id) {
+        Card.findByIdAndRemove(req.params.id)
+          .then((deletedCard) => res.send(deletedCard))
+          .catch(next);
+      }
+      return next(new Forbidden('Вы не можете удалить эту карточку'));
     })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -71,11 +77,10 @@ const likeCard = (req, res) => {
     });
 };
 
-const dislikeCard = (req, res) => {
-  const { cardId } = req.params;
+const dislikeCard = (req, res, next) => {
   Card.findByIdAndUpdate(
-    cardId,
-    { $pull: { likes: req.user._id } },
+    req.params.cardId,
+    { $pull: { likes: req.user._id._id } },
     { new: true },
   ).then((card) => {
     if (!card) {
@@ -85,10 +90,9 @@ const dislikeCard = (req, res) => {
   })
     .catch((err) => {
       if (err.name === 'CastError') {
-        throw new BadRequest('invalid data');
-      } else {
-        throw new ServerError('server error');
+        return next(new BadRequest(' incorrect data '));
       }
+      return next(new ServerError('server error'));
     });
 };
 module.exports = {
