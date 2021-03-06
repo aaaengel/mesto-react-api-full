@@ -19,21 +19,19 @@ const createCard = (req, res, next) => {
     });
 };
 
-const returnCards = (req, res, next) => {
+const returnCards = (req, res) => {
   Card.find({}).then((cards) => {
     if (!cards.length) {
-      return next(new NotFound('cards undefined'));
+      throw new NotFound('cards undefined');
     }
-    res.send({ data: cards });
-    return next();
+    return res.send({ data: cards });
   })
     .catch((err) => {
       if (err.name === 'CastError') {
-        return next(new BadRequest('invalid data'));
+        throw new BadRequest('invalid data');
       }
-      return next(new ServerError('server error'));
+      throw new ServerError('server error');
     });
-  return next();
 };
 
 const deleteCardById = (req, res, next) => {
@@ -76,7 +74,6 @@ const likeCard = (req, res, next) => {
       }
       return next(new ServerError('server error'));
     });
-  return next();
 };
 
 const dislikeCard = (req, res, next) => {
@@ -97,7 +94,6 @@ const dislikeCard = (req, res, next) => {
       }
       return next(new ServerError('server error'));
     });
-  return next();
 };
 module.exports = {
   createCard,
