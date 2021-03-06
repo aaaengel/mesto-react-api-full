@@ -6,33 +6,34 @@ const {
   Forbidden,
 } = require('../errors');
 
-const createCard = (req, res) => {
+const createCard = (req, res, next) => {
   const { name, link } = req.body;
   const owner = req.user._id;
   Card.create({ name, link, owner })
     .then((card) => res.send({ data: card }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        throw new BadRequest('invalid data');
+        return next(new BadRequest('invalid data'));
       }
-      throw new ServerError('server error');
+      return next(new ServerError('server error'));
     });
 };
 
-const returnCards = (req, res) => {
+const returnCards = (req, res, next) => {
   Card.find({}).then((cards) => {
     if (!cards.length) {
-      throw new NotFound('cards undefined');
+      return next(new NotFound('cards undefined'));
     }
     res.send({ data: cards });
+    return next();
   })
     .catch((err) => {
       if (err.name === 'CastError') {
-        throw new BadRequest('invalid data');
-      } else {
-        throw new ServerError('server error');
+        return next(new BadRequest('invalid data'));
       }
+      return next(new ServerError('server error'));
     });
+  return next();
 };
 
 const deleteCardById = (req, res, next) => {
@@ -57,24 +58,25 @@ const deleteCardById = (req, res, next) => {
     });
 };
 
-const likeCard = (req, res) => {
+const likeCard = (req, res, next) => {
   Card.findByIdAndUpdate(
     req.params.cardId,
     { $addToSet: { likes: req.user._id } },
     { new: true },
   ).then((card) => {
     if (!card) {
-      throw new NotFound('card undefined');
+      return next(new NotFound('card undefined'));
     }
     res.send({ data: card });
+    return next();
   })
     .catch((err) => {
       if (err.name === 'CastError') {
-        throw new BadRequest('invalid data');
-      } else {
-        throw new ServerError('server error');
+        return next(new BadRequest('invalid data'));
       }
+      return next(new ServerError('server error'));
     });
+  return next();
 };
 
 const dislikeCard = (req, res, next) => {
@@ -84,9 +86,10 @@ const dislikeCard = (req, res, next) => {
     { new: true },
   ).then((card) => {
     if (!card) {
-      throw new NotFound('card undefined');
+      return next(new NotFound('card undefined'));
     }
     res.send({ data: card });
+    return next();
   })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -94,6 +97,7 @@ const dislikeCard = (req, res, next) => {
       }
       return next(new ServerError('server error'));
     });
+  return next();
 };
 module.exports = {
   createCard,
